@@ -1,8 +1,7 @@
 # Project Description
 **Project name:** Simulation of Processes in Distributed Data Stores
 
-**Project participants:** Galyna Zholtkevych, Kyrylo Rukkas, and
-Grygoriy Zholtkevych (g.zholtkevych@karazin.ua)
+**Project participants:** Galyna Zholtkevych, Kyrylo Rukkas
 
 **Institution:** Department of Theoretical and Applied Computer Science,
 School of Mathematics and Computer Science at V.N. Karazin Kharkiv National
