@@ -1,0 +1,13 @@
+# IDE project files
+*.spyderproject
+*.project
+*.pydevproject
+.ropeproject
+.idea/
+.venv
+venv
+
+papers/
+laptop_papers/
+results/
+models/

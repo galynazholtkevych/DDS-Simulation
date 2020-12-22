@@ -1,0 +1,16 @@
+appdirs==1.4.0
+cycler==0.10.0
+decorator==4.0.11
+enum-compat==0.0.2
+# eventlet==0.20.1
+# greenlet==0.4.12
+matplotlib==2.0.0
+networkx==1.11 # BSD License
+# numpy==1.11.*
+packaging==16.8
+pyparsing==2.1.10
+# PyQt5==5.8
+python-dateutil==2.6.0
+pytz==2016.10
+# sip==4.19.1
+six==1.10.0
