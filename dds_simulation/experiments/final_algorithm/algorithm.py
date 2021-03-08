@@ -16,21 +16,6 @@ from dds_simulation.visualisation.draw_graphics import draw_time_measurements
 
 
 async def run(*args, **kwargs):
-    request = {'dataunit': sample(dataunit_list, 1)[0]}
-    experiments = list(range(100))
-    time_line = []
-    # for i in experiments:
-    #     print("experiment ", i)
-    #     start_time = time.time()
-    #     SupposedLoadBalancer().receive(request)
-    #     end_time = time.time()
-    #     taken_time = round(end_time - start_time, 2)
-    #     print("Time taken ", taken_time)
-    #     time_line.append(taken_time)
-    # print("Time line")
-    # print(time_line)
-    # draw_time_measurements(experiments, time_line, 'Experiments', 'Time taken', 'final_algorithm', f'read-request-time-{len(experiments)}')
-
     experiments = list(range(100))
     replication_time_line = []
     from copy import deepcopy
@@ -52,8 +37,10 @@ async def run(*args, **kwargs):
 
     print(write_time_line)
     print("len of timeline ", len(write_time_line))
-    # draw_time_measurements([i for i in range(len(write_time_line))], write_time_line, f'Experiments', 'Time taken', 'final_algorithm', f'write-request-time-{len(experiments)*len(node_list)}')
-    # draw_time_measurements(experiments, replication_time_line, f'Experiments for {len(node_list)}', 'Time taken', 'final_algorithm', 'full-replication-time')
+    draw_time_measurements([i for i in range(len(write_time_line))], write_time_line, f'Experiments',
+                           'Time taken', 'final_algorithm', f'write-request-time-{len(experiments)*len(node_list)}')
+    draw_time_measurements(experiments, replication_time_line, f'Experiments for {len(node_list)}',
+                           'Time taken', 'final_algorithm', 'full-replication-time')
 
 
 class SupposedLoadBalancer:

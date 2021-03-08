@@ -34,7 +34,6 @@ async def run(nodes_number, dataunits_number, writes_number):
     coros = reads + getting_state + writes + spreads
     random.shuffle(coros)
     results = await asyncio.gather(*coros)
-    print(results)
     return reads_number
 
 
@@ -157,7 +156,7 @@ class DBMiddleware:
     async def write(cls, request, ts=None):
         created_at = ts or time.time()
         du = request.get('dataunit')
-        nodes = request.get('nodes', [])# or random.randint(0, Application.nodes_number - 1)
+        nodes = request.get('nodes', [])
 
         if request.get('internal'):
             # if re quest is internal this node certainly has the dataunit coming
@@ -168,10 +167,7 @@ class DBMiddleware:
                 return {'status': 201, 'created_at': created_at, 'time': AVERAGE_TIME_WRITE}
 
             await cls._spread()
-            # do not take here replication
-            # if nodes:
-            #     request['broadcast_list'] = nodes
-            #     # return await cls.write(request)
+
             return {'status': 201, 'created_at': created_at, 'time': AVERAGE_TIME_WRITE}
 
         nodes = cls.dnode_map.get(du)
@@ -184,11 +180,11 @@ class DBMiddleware:
             await asyncio.sleep(random.uniform(0.5, 1))  # execute query
             cls.update(du, node, ts=created_at)
 
-        # await cls._spread()
-        # if nodes:
-        #     request['internal'] = True
-        #     request['broadcast_list'] = nodes
-        #     await cls.write(request)
+        await cls._spread()
+        if nodes:
+            request['internal'] = True
+            request['broadcast_list'] = nodes
+            await cls.write(request)
 
         return {'status': 201, 'created_at': created_at, 'time': AVERAGE_TIME_WRITE}
 
