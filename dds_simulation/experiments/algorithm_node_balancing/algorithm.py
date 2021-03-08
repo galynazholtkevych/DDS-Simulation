@@ -7,7 +7,6 @@ from random import sample
 import time
 
 from dds_simulation.visualisation import graph_building
-from dds_simulation.conf import default
 from dds_simulation.conf.default import PROJECT_ROOT
 
 UPDATE_TIME = 5  # sec
@@ -15,10 +14,6 @@ QUERY_SELECT_EXECUTION_TIME = 3
 
 node_list = [i for i in range(15)]
 dataunit_list = [i for i in range(5)]
-# DATAUNITS_NODES_MAPPING = {dataunit: list(sample(node_list, 5)) for dataunit in dataunit_list}
-# DATAUNITS_NODES_PARTITION_MAPPING = {dataunit: list(sample(node_list, 8)) for dataunit in dataunit_list}
-
-from dds_simulation.visualisation.draw_graphics import draw_time_measurements
 
 CONSTANT_LOCAL_WRITE = 3  # sec
 CONSTANT_LOCAL_READ = 1  # sec

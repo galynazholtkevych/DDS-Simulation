@@ -47,6 +47,5 @@ def draw_time_measurements(x_vector, y_vector, x_label, y_label, alg_folder, fil
     pyplot.xticks(ticks, ticks)
     pyplot.plot(x_vector, y_vector, color='blue')
 
-
     path = os.path.join(PROJECT_ROOT, 'results', alg_folder, f'{filename}.png')
     pyplot.savefig(path, dpi=600)
