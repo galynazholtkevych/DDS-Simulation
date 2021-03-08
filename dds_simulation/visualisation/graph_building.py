@@ -34,6 +34,7 @@ def form_graph(nodes_number, degree):
 def form_gdn(nodes, edges):
     return nx.gnm_random_graph(nodes, edges)
 
+
 def form_gnp(nodes, edges):
     return nx.fast_gnp_random_graph(nodes, edges)
 

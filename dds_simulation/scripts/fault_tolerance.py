@@ -54,4 +54,3 @@ def run():
     # prob.build_probabilities_matrix()
 
     tolerance = FaultTolerance(graph)
-open("test.txt")

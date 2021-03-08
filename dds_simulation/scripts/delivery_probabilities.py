@@ -264,7 +264,7 @@ def print_matrix(matrix):
         print(f'| {row}\t | ')
 
 
-if __name__ == '__main__':
+def calculate_delivery_matrix_replication_process():
 
     G = nx.Graph()
     G.add_edge(0, 1)

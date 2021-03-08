@@ -59,3 +59,4 @@ def draw_function(x_vector, y_vector, x_label, y_label, filename):
     path = os.path.join(PROJECT_ROOT, 'results',
                         f'{filename}-{int(time.time())}.png')
     pyplot.savefig(path, dpi=300, format='png')
+

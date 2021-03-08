@@ -83,7 +83,7 @@ class ConsistentExperiment(DDS):
         y = []
         x = []
         inconsistency_array = []
-        print("patritions: ", partitions)
+        print("partitions: ", partitions)
         for part in partitions:
             print("=========================================")
             print("PARTITION: ", part)

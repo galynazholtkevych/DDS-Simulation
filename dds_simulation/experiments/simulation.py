@@ -53,9 +53,9 @@ class DDSMessaging(DDS):
         for node1, node2 in graph.edges():
             self.links.add(Link(node1, node2))
             if weighted:
-                graph[node1][node2]['weight'] = random.randint(1, 9)
+                self.graph[node1][node2]['weight'] = random.randint(1, 9)
             else:
-                graph[node1][node2]['weight'] = 1
+                self.graph[node1][node2]['weight'] = 1
 
         for node_ident in graph.nodes():
             neighbors = graph.neighbors(node_ident)
@@ -64,20 +64,16 @@ class DDSMessaging(DDS):
 
         self.diameter = networkx.diameter(graph, e=eccentricity)
         self.dataunits = DDSMessaging.generate_data(dataunits_number)
-        self.distribute_data(distribution)
+        self.set_initial_data(distribution)
 
-    def _eccentricity(self, node, eccentricity):
-        path = networkx.single_source_dijkstra_path_length(
-            self.graph, node, weight='weight')
-        path = {k: v for k, v in path.items()
-                if not eccentricity.get(k) or v > eccentricity[k]}
-        eccentricity.update(path)
+    def start_experiment(self):
+        self.simulate_message()
 
     @staticmethod
     def generate_data(dataunits):
         return [Dataunit(i) for i in range(dataunits)]
 
-    def distribute_data(self, distribution):
+    def set_initial_data(self, distribution):
         # NOTE(galyna): later on make separate module distribution
         if distribution == 'random':
             dataunits_per_node = random.sample(
@@ -87,8 +83,12 @@ class DDSMessaging(DDS):
             for node in self.nodes:
                 node.add_dataunits(dataunits_per_node)
 
-    def start_experiment(self):
-        self.simulate_message()
+    def _eccentricity(self, node, eccentricity):
+        path = networkx.single_source_dijkstra_path_length(
+            self.graph, node, weight='weight')
+        path = {k: v for k, v in path.items()
+                if not eccentricity.get(k) or v > eccentricity[k]}
+        eccentricity.update(path)
 
     def _simulate_message_single_iteration(self, node_identity,
                                            nodes_processed):
@@ -102,9 +102,6 @@ class DDSMessaging(DDS):
         nodes_processed.update(set(neighbors))
         nodes_processed.update(set([node_identity, ]))
         return neighbors
-
-    def _simulate_parallel_iterations(self):
-        pass
 
     def _shortest_path_for_neighbors(self, i, neighbors):
         if i in neighbors:
@@ -128,19 +125,17 @@ class DDSMessaging(DDS):
         new_neighbors = set()
         nodes_processed = set([node_identity])
         print("node ident>>> ", node_identity)
-        neighbors = self.graph.neighbors(node_identity)
+        neighbors = set(self.graph.neighbors(node_identity))
         path_ahead = self._shortest_path_for_neighbors(node_identity, neighbors)
         print("neighbors>>> ", neighbors)
-        nodes_processed.update(set(neighbors))
+
+        nodes_processed.update(neighbors)
         link_cost = min([self.graph[node_identity][n]['weight'] for n in path_ahead])
         print("time slots taken first time>>> ", link_cost)
         self.time_slots_taken += link_cost
 
         while len(nodes_processed) < len(self.nodes):
 
-            # ноды должны тоже выбираться параллельно,
-            # а не только одна, должны передавать сообщение
-            # ВСЕ соседи ПАРАЛЛЕЛЬНО
             link_costs = []
             print("====================================")
 
@@ -151,13 +146,12 @@ class DDSMessaging(DDS):
                 print("neighbors now>>>> ", new_neighbors)
                 path_ahead = self._shortest_path_for_neighbors(
                     i, new_neighbors)
-                print("path ahed>>> ", path_ahead)
+                print("path ahead>>> ", path_ahead)
                 if not path_ahead:
                     continue
                 max_weight = min([self.graph[i][n]['weight'] for n in path_ahead])
                 print("max weight now>>> ", max_weight)
-                link_costs.append(
-                    max_weight)
+                link_costs.append(max_weight)
             print("=============================")
             print("link costs>> ", link_costs)
 
@@ -175,19 +169,14 @@ class DDSMessaging(DDS):
             print("neighbors in the end>>>> ", neighbors)
             new_neighbors.clear()
 
-        if self.time_slots_taken > self.diameter:
-            labels = {k.identity: k.identity for k in self.nodes}
-            self.controller.draw_graph(
-                self.graph, labels, f'{self.time_slots_taken}-{self.diameter}')
-
     def get_delivery_time(self):
         """Useful for interactive mode now"""
         return self.time_slots_taken
 
     def track_replicas_on_nodes(self):
         """Useful for interactive mode now"""
-        pass
+        raise NotImplementedError
 
     def represent_current_state(self):
         """Useful for interactive mode now"""
-        pass
+        raise NotImplementedError

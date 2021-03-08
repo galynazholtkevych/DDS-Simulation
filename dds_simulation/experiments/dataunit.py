@@ -4,10 +4,10 @@ from uuid import uuid1
 class Dataunit(object):
 
     def __init__(self, identity):
-        self.fields = {'id', 'uuid', 'data'}
+        self.fields = {'id', 'data'}
         self.id = identity
         # uuid of the dataunit located on the special node
-        self.uuid = uuid1()
+
         self.data = '{}_some data message'.format(self.id)
 
     def to_dict(self):
