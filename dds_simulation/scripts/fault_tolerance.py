@@ -34,8 +34,6 @@ class FaultTolerance:
 
             # the more nodes partition has the more fault tolerant should be a node
 
-            import ipdb; ipdb.set_trace()
-
     def fault_tolerance_graph(self):
         pass
 
@@ -49,8 +47,8 @@ def run():
         graph[node]['capacity'] = random.random(0, 1)
 
     # define probabilities for dataloss matrix
-    # prob = DatalossProbability(graph)
-    # prob.build_adjacency_matrix()
-    # prob.build_probabilities_matrix()
-
+    prob = DatalossProbability(graph)
+    prob.initialize()
+    prob()
     tolerance = FaultTolerance(graph)
+    # Work in Progress

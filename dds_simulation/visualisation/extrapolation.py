@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+import time
 from uuid import uuid4
 
 from matplotlib import pyplot
@@ -54,8 +55,7 @@ def draw_function(x_vector, y_vector, x_label, y_label, filename):
     x_line = [x_vector[i] for i in range(0, len(x_vector))
               if x_vector[i] <= y_vector[i]]
     y_line = x_line[:]
-    import time
-    # pyplot.plot(x_line, y_line, '-', color='black', linewidth=2.0)
+
     path = os.path.join(PROJECT_ROOT, 'results',
                         f'{filename}-{int(time.time())}.png')
     pyplot.savefig(path, dpi=300, format='png')

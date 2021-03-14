@@ -95,8 +95,7 @@ def plot_graph(animation):
     ani = FuncAnimation(fig, animation.draw_graph,
                         init_func=animation.initiate,
                         interval=200)
-    filename = f"{time()}-graph.png"
     plt.show()
-    print(multiprocessing.current_process().name,"starting plot show process") #print statement preceded by true process name
+    print(multiprocessing.current_process().name, "starting plot show process")
 
-    print(multiprocessing.current_process().name,"plotted graph") #print statement preceded by true process name
+    print(multiprocessing.current_process().name, "plotted graph")
